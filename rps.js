@@ -1,3 +1,4 @@
+//Randomizes computer choice to rock, paper, or scissors
 function getComputerChoice() {
     let ranNum = Math.floor(Math.random() * 3);
     
@@ -12,22 +13,62 @@ function getComputerChoice() {
     return choice;
 }
 
+//Returns win, lose, or tie based on player and computer choices
 function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase();
-    playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
-    let winningMessage;
+    let result;
 
     if (playerSelection === computerSelection) {
-        winningMessage = `Tie! ${playerSelection} ties ${computerSelection}`;
+        result = "tie";
     } else if (playerSelection === "Rock" && computerSelection === "Paper") {
-        winningMessage = `You lose! ${computerSelection} beats ${playerSelection}`;
+        result = "lose";
     } else if (playerSelection === "Rock" && computerSelection === "Scissors") {
-        winningMessage = `You win! ${playerSelection} beats ${computerSelection}`;
+        result = "win";
+    } else if (playerSelection === "Paper" && computerSelection === "Rock") {
+        result = "win";
+    } else if (playerSelection === "Paper" && computerSelection === "Scissors") {
+        result = "lose";
+    } else if (playerSelection === "Scissors" && computerSelection === "Paper") {
+        result = "win";
+    } else if (playerSelection === "Scissors" && computerSelection === "Rock") {
+        result = "lose";
     }
 
-    return winningMessage;
+    return result;
 }
 
-const playerSelection = "ROCK";
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+//Plays game 5 times. Declares winner of each round and overall winner at the end
+function game() {
+    let playerWinCount = 0;
+    let computerWinCount = 0;
+
+    for (let i = 0; i < 5; i++) {
+        let playerSelection = "scissors";
+        //Make player input case-insensitive
+        playerSelection = playerSelection.toLowerCase();
+        playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
+        
+        const computerSelection = getComputerChoice();
+
+        if (playRound(playerSelection, computerSelection) === "win") {
+            console.log(`You win this round! ${playerSelection} beats ${computerSelection}`);
+            playerWinCount ++;
+        } else if (playRound(playerSelection, computerSelection) === "lose") {
+            console.log(`You lose this round! ${computerSelection} beats ${playerSelection}`);
+            computerWinCount ++;
+        } else {
+            console.log(`You tie this round! ${playerSelection} ties ${computerSelection}`);
+        }
+
+    }
+
+    if (playerWinCount > computerWinCount) {
+        console.log("You won the game!")
+    } else if (playerWinCount < computerWinCount) {
+        console.log("You lost the game!")
+    } else {
+        console.log("Tie! Nobody wins.")
+    }
+
+}
+
+game();
