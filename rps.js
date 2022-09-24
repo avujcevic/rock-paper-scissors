@@ -13,6 +13,24 @@ function getComputerChoice() {
     return choice;
 }
 
+function getPlayerChoice() {
+
+    while (true) {
+        let choice = prompt("Please enter 'rock', 'paper', or 'scissors'");
+
+        //Make player input case-insensitive
+        choice = choice.toLowerCase();
+        choice = choice.charAt(0).toUpperCase() + choice.slice(1);
+
+        if (choice === "Rock" || choice === "Paper" || choice === "Scissors" ) {
+            return choice;
+            break;
+        }
+    }
+}
+
+ 
+
 //Returns win, lose, or tie based on player and computer choices
 function playRound(playerSelection, computerSelection) {
     let result;
@@ -36,17 +54,15 @@ function playRound(playerSelection, computerSelection) {
     return result;
 }
 
+
 //Plays game 5 times. Declares winner of each round and overall winner at the end
 function game() {
     let playerWinCount = 0;
     let computerWinCount = 0;
 
     for (let i = 0; i < 5; i++) {
-        let playerSelection = "scissors";
-        //Make player input case-insensitive
-        playerSelection = playerSelection.toLowerCase();
-        playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
         
+        const playerSelection = getPlayerChoice();
         const computerSelection = getComputerChoice();
 
         if (playRound(playerSelection, computerSelection) === "win") {
@@ -68,7 +84,6 @@ function game() {
     } else {
         console.log("Tie! Nobody wins.")
     }
-
 }
 
 game();
