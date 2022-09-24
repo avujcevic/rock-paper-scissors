@@ -29,8 +29,6 @@ function getPlayerChoice() {
     }
 }
 
- 
-
 //Returns win, lose, or tie based on player and computer choices
 function playRound(playerSelection, computerSelection) {
     let result;
@@ -53,7 +51,6 @@ function playRound(playerSelection, computerSelection) {
 
     return result;
 }
-
 
 //Plays game 5 times. Declares winner of each round and overall winner at the end
 function game() {
@@ -85,5 +82,6 @@ function game() {
         console.log("Tie! Nobody wins.")
     }
 }
+
 
 game();
