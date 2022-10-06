@@ -7,44 +7,29 @@ const computerScoreIndicator = document.querySelector("#computer_score_indicator
 
 const container = document.querySelector("#container");
 const roundResult = document.createElement("div");
+const gameResult = document.createElement("div");
 
 let playerScore = 0;
 let computerScore = 0;
 
 buttonRock.addEventListener("click", () => {
     let result = playRound("Rock", getComputerChoice());
-    if (result === "win") {
-        playerScore++;
-        playerScoreIndicator.textContent = playerScore;
-    } else if (result === "lose") {
-        computerScore++;
-        computerScoreIndicator.textContent = computerScore;
-    }    
+    incrementScore(result);
+    checkScore(playerScore, computerScore); 
 });
 
 buttonPaper.addEventListener("click", () => {
     let result = playRound("Paper", getComputerChoice());
-    if (result === "win") {
-        playerScore++;
-        playerScoreIndicator.textContent = playerScore;
-    } else if (result === "lose") {
-        computerScore++;
-        computerScoreIndicator.textContent = computerScore;
-    }    
+    incrementScore(result);
+    checkScore(playerScore, computerScore); 
 });
 
 buttonScissors.addEventListener("click", () => {
     let result = playRound("Scissors", getComputerChoice());
-    if (result === "win") {
-        playerScore++;
-        playerScoreIndicator.textContent = playerScore;
-    } else if (result === "lose") {
-        computerScore++;
-        computerScoreIndicator.textContent = computerScore;
-    }    
+    incrementScore(result);
+    checkScore(playerScore, computerScore); 
 });
 
-//Randomizes computer choice to rock, paper, or scissors
 function getComputerChoice() {
     let ranNum = Math.floor(Math.random() * 3);
     
@@ -59,7 +44,6 @@ function getComputerChoice() {
     return choice;
 }
 
-//Returns win, lose, or tie based on player and computer choices
 function playRound(playerSelection, computerSelection) {
     let result;
 
@@ -72,11 +56,11 @@ function playRound(playerSelection, computerSelection) {
     } else if (playerSelection === "Rock" && computerSelection === "Scissors") {
         result = "win";
         displayRoundResults(result, playerSelection, computerSelection);
-    } else if (playerSelection === "Paper" && computerSelection === "Rock") {
-        result = "win";
-        displayRoundResults(result, playerSelection, computerSelection);
     } else if (playerSelection === "Paper" && computerSelection === "Scissors") {
         result = "lose";
+        displayRoundResults(result, playerSelection, computerSelection);
+    } else if (playerSelection === "Paper" && computerSelection === "Rock") {
+        result = "win";
         displayRoundResults(result, playerSelection, computerSelection);
     } else if (playerSelection === "Scissors" && computerSelection === "Paper") {
         result = "win";
@@ -106,37 +90,29 @@ function displayRoundResults(result, pSelection, cSelection) {
     }
     container.appendChild(roundResult);
 }
-    
-//Plays game 5 times. Declares winner of each round and overall winner at the end
-function game() {
-    let playerWinCount = 0;
-    let computerWinCount = 0;
 
-    for (let i = 0; i < 5; i++) {
-        
-        const playerSelection = getPlayerChoice();
-        const computerSelection = getComputerChoice();
-
-        if (playRound(playerSelection, computerSelection) === "win") {
-            console.log(`You win this round! ${playerSelection} beats ${computerSelection}`);
-            playerWinCount ++;
-        } else if (playRound(playerSelection, computerSelection) === "lose") {
-            console.log(`You lose this round! ${computerSelection} beats ${playerSelection}`);
-            computerWinCount ++;
-        } else {
-            console.log(`You tie this round! ${playerSelection} ties ${computerSelection}`);
-        }
-
-    }
-
-    if (playerWinCount > computerWinCount) {
-        console.log("You won the game!")
-    } else if (playerWinCount < computerWinCount) {
-        console.log("You lost the game!")
-    } else {
-        console.log("Tie! Nobody wins.")
+function incrementScore(result) {
+    if (result === "win") {
+        playerScore++;
+        playerScoreIndicator.textContent = playerScore;
+    } else if (result === "lose") {
+        computerScore++;
+        computerScoreIndicator.textContent = computerScore;
     }
 }
 
-
-//game();
+function checkScore(playerScore, computerScore) {
+    if (playerScore === 5) {
+        gameResult.textContent = "You're first to 5. You win the game!"
+        container.appendChild(gameResult);
+        buttonRock.disabled = true;
+        buttonPaper.disabled = true;
+        buttonScissors.disabled = true;
+    } else if (computerScore === 5) {
+        gameResult.textContent = "The computer is first to 5. You lose the game!"
+        container.appendChild(gameResult);
+        buttonRock.disabled = true;
+        buttonPaper.disabled = true;
+        buttonScissors.disabled = true;
+    }
+}
